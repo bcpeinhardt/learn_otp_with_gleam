@@ -1,6 +1,6 @@
 # Learn OTP w/Gleam
 
-Hello! I'm Ben, a software engineer who's fond of the [Gleam programming language](https://gleam.run/) interested in learning OTP. Gleam is staically typed, has great tooling, and an even better community.
+Hello! I'm Ben, a software engineer who's fond of the [Gleam programming language](https://gleam.run/) interested in learning OTP. Gleam is statically typed, has great tooling, and an even better community.
 
 Gleam has a package for using the OTP framework, called `gleam_otp`. It also has a package for more fundamental
 Erlang specific concepts, `gleam_erlang`.

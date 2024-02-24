@@ -5,7 +5,7 @@ import gleam/string
 pub fn main() {
   // A "process" in gleam is a lightweight, concurrent unit of execution.
   // Other languages might call this a "coroutine" or a "green thread".
-  // Every process has a unique identifier call a "process id" or "pid"
+  // Every process has a unique identifier called a "process id" or "pid"
   // for short. These can be used to monitor or kill processes.
   let pid = process.self()
   io.println("Current process id: " <> string.inspect(pid))
@@ -27,6 +27,7 @@ pub fn main() {
   // send messages between different processes, we need a `Subject`.
   // The subject is a combination of a unique identifier and the process id
   // of the process that created it.
+  // (Note: If you're coming from Erlang/Elixir, a subject is like `from()` https://www.erlang.org/doc/man/gen_server#type-from)
   let subj = process.new_subject()
 
   // Once we have a subject, we can use it to send messages to the owner
@@ -37,7 +38,7 @@ pub fn main() {
   let assert Ok("hello, world") = process.receive(subj, 1000)
 
   // Note: If you've ever dabbled in Erlang/Elixir concurrency tutorials, you may be used
-  // to sending messages to a process id directly. In Gleam, we use subjects, which 
+  // to sending messages to a pid directly. In Gleam, we use subjects, which 
   // have a few advantadges over process ids:
   // - They are generic over the message type, so we get type safe messages.
   // - You can have multiple per process. You can use multiple subjects to

@@ -21,7 +21,7 @@ them here, so that in the future this repo might serve as the base for learning 
 ### Using this resource
 
 This resource presumes ALOT of prerequisite knowledge in it's users.
-1. You kinda know what Erlang concurrency and OTP is about/why it's good. If you've let to
+1. You kinda know what Erlang concurrency and OTP is about/why it's good. If you've yet to
    drink the Kool-aid, allow me to provide some:
   [The Soul of Erlang and Elixir talk](https://www.youtube.com/watch?v=JvBT4XBdoUE)
 2. You are familiar w/Gleam syntax. Gleam has a very small set of language features that work well together.

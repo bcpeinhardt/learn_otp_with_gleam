@@ -4,7 +4,7 @@ Hello! I'm Ben, a software engineer who's fond of the [Gleam programming languag
 
 If you haven't heard:
 - Gleam is a programming language that is statically typed, has great tooling, and an even better community.
-- Gleam can compile to Erlang or JavaScript, depending on your needs. Because the concurrency modules of these
+- Gleam can compile to Erlang or JavaScript, depending on your needs. Because the concurrency models of these
   languages are fundamentally different, concurrency is handled at the library level.
 - Erlang is sorta famous for its concurrency model, as well as it's standard framework for building
   concurrent applications: OTP. (Note: This isn't research stuff, Erlang is extremely battle tested.

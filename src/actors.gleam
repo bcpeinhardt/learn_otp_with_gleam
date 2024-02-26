@@ -19,7 +19,7 @@ pub fn main() {
   // API, and cordon off the concurrency concepts to your current module. Your users shouldn't
   // have to know that you're using actors under the hood.
 
-  // This section will showcases the usage of our pantry
+  // This section will showcase the usage of our pantry.
 
   // In a real application, `open_pantry` might get the current contents of the pantry from
   // a database, but for this example the pantry will always start out empty

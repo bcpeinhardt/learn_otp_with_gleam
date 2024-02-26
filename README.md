@@ -1,5 +1,7 @@
 # Learn OTP w/Gleam
 
+### !! Work in Progress !!
+
 Hello! I'm Ben, a software engineer who's fond of the [Gleam programming language](https://gleam.run/) interested in learning OTP. 
 
 If you haven't heard:
@@ -27,6 +29,14 @@ This resource presumes ALOT of prerequisite knowledge in it's users.
 2. You are familiar w/Gleam syntax. Gleam has a very small set of language features that work well together.
    It takes the idea of having only one way to do something pretty seriously, and as such is really quick
    to learn. If you have never seen Gleam, try out the [interactive tour](https://tour.gleam.run/).
+
+Each section is broken into it's own module, some sections with submodules. You can read them in the order
+you like, but I recommend
+    1. concurrency_primitives
+    2. actors
+
+All the code in this project is runnable, just run `gleam run -m <module_name>`. Feel free to clone the repo
+and tinker with the code!
 
 
 

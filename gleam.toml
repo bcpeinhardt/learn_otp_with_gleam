@@ -1,4 +1,4 @@
-name = "concurrency_primatives"
+name = "learn_otp_with_gleam"
 version = "1.0.0"
 
 # Fill out these fields if you intend to generate HTML documentation or publish
@@ -15,6 +15,7 @@ version = "1.0.0"
 [dependencies]
 gleam_stdlib = "~> 0.34 or ~> 1.0"
 gleam_erlang = "~> 0.24"
+gleam_otp = "~> 0.9"
 
 [dev-dependencies]
 gleeunit = "~> 1.0"

@@ -17,6 +17,5 @@ pub fn main() {
   }
 
   let assert Ok(_supervisor_subject) = supervisor.start(children)
-
   // Ok, how in the hell do I get this game subject.
 }

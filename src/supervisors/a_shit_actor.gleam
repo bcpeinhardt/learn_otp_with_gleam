@@ -7,13 +7,7 @@ import gleam/erlang/process.{type Subject}
 import prng/random
 
 pub fn start(_input: Nil) -> Result(Subject(Message), actor.StartError) {
-  actor.start_spec(actor.Spec(
-    init_timeout: 10,
-    loop: handle_message,
-    init: fn() {
-        actor.Ready(Nil, process.new_selector())
-    }
-  ))
+  actor.start(Nil, handle_message)
 }
 
 pub fn shutdown(subject: Subject(Message)) {

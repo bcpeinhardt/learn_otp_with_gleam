@@ -62,4 +62,33 @@ pub fn main() {
   // and we don't have to worry about the order in which the messages are sent.
   let assert Ok("whats up, pluto") = process.receive(subj2, 1000)
   let assert Ok("goodbye, mars") = process.receive(subj, 1000)
+  // Typically, when writing concurrent programs in Gleam, you won't work 
+  // with individual processes a lot. Instead, you'll use higher-level
+  // constructs.
+  //
+  // If you want something like a server, a long running process which will
+  // receive and respond you messages, the "actor" abstraction is the way to
+  // go. (An "actor" is Gleam's equivalent of Erlang/Elixir's `gen_server`.
+  // It has a different name because it has a different API due to static typing,
+  // but it's the same concept.)
+  //
+  // If you want to run a bunch of processes concurrently to perform
+  // work and collect their results OR you want to convert portions of
+  // synchronous code to run concurrently and only block once you need
+  // the results, you'll want the `Task` module. It's great for the dead simple
+  // "do this somewhere else and I'll let you know when I need it" case.
+
+  // A WORD OF WARNING: OTP's abstractions are really powerful, and have been
+  // tailored over decades so that they fit the mental model of a lot of
+  // problems really well. It can be tempting to want to use them as organizational
+  // constructs in the code base, especially coming from an OOP background, as processes can
+  // hold and update state, but you should not do this.
+  // Always ask yourself: Do I REALLY need concurrency here? REALLY REALLY?
+  // If you find yourself reaching for processes/tasks/actors as a way to hold state,
+  // rather than because you need concurrency for performance/scalability/fault tolerance reasons,
+  // you are not the first and you won't be the last.
+
+  // Below are some resources for learning functional design patterns to help reduce dependency
+  // on stateful constructs:
+  // Todo: find and vet said resources
 }

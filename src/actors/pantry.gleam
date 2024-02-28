@@ -14,13 +14,16 @@ import gleam/set.{type Set}
 //   pattern will help us integrate with something called a `supervisor` later on, and it
 //   matches how working with normal data in Gleam usually works too `operation(subject, arg1, arg2...)`.
 // - Functions that need to get a message back from the actor use `actor.call` to send a message
-//   and wait for a reply. This is a synchronous operation, and it will block the calling process.
-// - Functions that don't need a reply use `actor.send` to send a message to the actor. These are asynchronous.
-//   No checking is done to see if the message was received or not, it's fire and forget.
+//   and wait for a reply. (this is just a re-export off `process.call`). It is a synchronous operation, 
+//   and it will block the calling process.
+// - Functions that don't need a reply use `actor.send` (also a re-export) to send a message to the actor. 
+//   These are asynchronous. No checking is done to see if the message was received or not, it's fire and forget.
 
 const timeout: Int = 5000
 
 /// Create a new pantry actor.
+/// If the actor starts successfully, we get back an
+/// `Ok(subject)` which we can use to send messages to the actor.
 pub fn new() -> Result(Subject(Message), actor.StartError) {
   actor.start(set.new(), handle_message)
 }

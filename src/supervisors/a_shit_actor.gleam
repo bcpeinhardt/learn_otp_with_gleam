@@ -4,20 +4,44 @@
 
 import gleam/otp/actor
 import gleam/erlang/process.{type Subject}
-import prng/random
+import gleam/function
 
-pub fn start(_input: Nil) -> Result(Subject(Message), actor.StartError) {
-  actor.start(Nil, handle_message)
+pub fn start(
+  _input: Nil,
+  parent_subject: Subject(Subject(Message)),
+) -> Result(Subject(Message), actor.StartError) {
+  actor.start_spec(actor.Spec(
+    init: fn() {
+      let actor_subject = process.new_subject()
+      process.send(parent_subject, actor_subject)
+      actor.Ready(
+        Nil,
+        process.selecting(
+          process.new_selector(),
+          actor_subject,
+          function.identity,
+        ),
+      )
+    },
+    init_timeout: 1000,
+    loop: handle_message,
+  ))
 }
 
 pub fn shutdown(subject: Subject(Message)) {
   actor.send(subject, Shutdown)
 }
 
-pub fn play_game(subject: Subject(Message)) -> String {
-  let msg_generator = random.weighted(#(0.9, Duck), [#(0.1, Goose)])
-  let msg = random.random_sample(msg_generator)
-  actor.call(subject, msg, 1000)
+pub fn duck(
+  subject: Subject(Message),
+) -> Result(String, process.CallError(String)) {
+  process.try_call(subject, Duck, 1000)
+}
+
+pub fn goose(
+  subject: Subject(Message),
+) -> Result(String, process.CallError(String)) {
+  process.try_call(subject, Goose, 1000)
 }
 
 pub type Message {

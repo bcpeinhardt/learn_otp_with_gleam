@@ -1,6 +1,8 @@
 import gleam/io
-import gleam/erlang/process
+import gleam/erlang/process.{type Subject}
 import gleam/string
+import gleam/function
+import gleam/int
 
 pub fn main() {
   // A "process" in gleam is a lightweight, concurrent unit of execution.
@@ -62,6 +64,7 @@ pub fn main() {
   // and we don't have to worry about the order in which the messages are sent.
   let assert Ok("whats up, pluto") = process.receive(subj2, 1000)
   let assert Ok("goodbye, mars") = process.receive(subj, 1000)
+
   // Typically, when writing concurrent programs in Gleam, you won't work 
   // with individual processes a lot. Instead, you'll use higher-level
   // constructs.
@@ -77,4 +80,60 @@ pub fn main() {
   // synchronous code to run concurrently and only block once you need
   // the results, you'll want the `Task` module. It's great for the dead simple
   // "do this somewhere else and I'll let you know when I need it" case.
+  //
+  // Before you run off reading those sections though, lets discuss subjects a 
+  // bit more.
+
+  let subject: Subject(String) = process.new_subject()
+
+  // A subject works a bit like a mailbox. You can send messages
+  // to it from any process, and receive them from any other process.
+
+  process.start(
+    fn() { process.send(subject, "hello from some rando process") },
+    True,
+  )
+
+  process.start(
+    fn() {
+      // receive in another rando process
+      let assert Ok("hello from some rando process") =
+        process.receive(subject, 1000)
+    },
+    True,
+  )
+
+  // Notice that the subjects type is `Subject(String)`. Subjects are generic
+  // over the type of message they can send/receive.
+  // This is nice because the type system will help us ensure that we're not sending/receiving
+  // the wrong type of message, and we can do less runtime checking than in a dynamic language.
+
+  // The other thing you'll want to know about is "selectors". Remember the example from earlier,
+  // where we sent messages from two different subjects? We had to choose which ones to wait for
+  // first (we waited for pluto, then dealt with mars after).
+  // What if we wanted to deal with messages as they came in, regardless of which subject they came from?
+  // That's what selectors are for. They let you wait for messages from multiple subjects at once.
+
+  // The catch is that selecting from a selector has to produce only one type of message, so you'll
+  // need to map the messages to a common type.
+  // In this example, I want to receive messages as strings, so I tell the selector to turn subject 1's
+  // messages into string using `int.to_string`, and to leave subject 2's messages alone 
+  // using `function.identity`.
+
+  // Try sending the messages in different order to see the selector in action!
+
+  let subject1: Subject(Int) = process.new_subject()
+  let subject2: Subject(String) = process.new_subject()
+  let selector =
+    process.new_selector()
+    |> process.selecting(subject1, int.to_string)
+    |> process.selecting(subject2, function.identity)
+
+  process.start(fn() { process.send(subject1, 1) }, True)
+  process.start(fn() { process.send(subject2, "2") }, True)
+
+  let assert Ok(some_str) = process.select(selector, 1000)
+  io.println("Received: " <> some_str)
+  let assert Ok(some_str_2) = process.select(selector, 1000)
+  io.println("Received: " <> some_str_2)
 }

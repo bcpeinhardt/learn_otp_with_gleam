@@ -7,7 +7,6 @@
 //// 
 
 import actors/pantry
-import gleam/erlang/process
 
 pub fn main() {
   // To demonstrate what actors are and how they work, we'll create a simple

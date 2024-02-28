@@ -12,7 +12,7 @@ import gleam/set.{type Set}
 //   We use this to send messages to the actor. We could abstract that away further, 
 //   so the user doesn't have to manage the subject themselves, but following this
 //   pattern will help us integrate with something called a `supervisor` later on, and it
-//   matches how working with normal data in Gleam usually works too `operation(subject, arg1, arg2...)`.
+//   matches how working with normal data in Gleam usually works too `module.operation(subject, arg1, arg2...)`.
 // - Functions that need to get a message back from the actor use `actor.call` to send a message
 //   and wait for a reply. (this is just a re-export off `process.call`). It is a synchronous operation, 
 //   and it will block the calling process.
@@ -38,14 +38,17 @@ pub fn take_item(pantry: Subject(Message), item: String) -> Result(String, Nil) 
   // See that `_`? That's a placeholder for the reply subject. It will be injected for us by `call`.
   //
   // If the underscore syntax is confusing, it's called a [function capture](https://tour.gleam.run/functions/function-captures/).
-  // It's a shorthand for `fn(reply_with) { TakeItem(reply_with, item) }`.
+  // It's a shorthand for `fn(reply_with) { TakeItem(reply_with, item) }` where `reply_with` is a subject owned by
+  // the calling process. Two way message passing requires two subjects, one for each process.
   //
   // Also, since we need to wait for a response, we pass a timeout as the last argument so we don't get stuck
-  // waiting forever if our actor gets struck by lightning or something.
+  // waiting forever if our actor process gets struck by lightning or something.
   actor.call(pantry, TakeItem(_, item), timeout)
 }
 
 /// Close the pantry.
+/// Shutdown functions like this are often written for manual usage and testing purposes.
+/// In a real application, you'd probably want to use a `supervisor` to manage the lifecycle of your actors.
 pub fn close(pantry: Subject(Message)) -> Nil {
   actor.send(pantry, Shutdown)
 }
@@ -66,7 +69,7 @@ pub type Message {
 }
 
 // This is our actor's message handler. It's a function that takes a message and the current state of the actor,
-// and returns a new state and a new state for the actor to continue with.
+// and returns a new state for the actor to continue with.
 //
 // There's nothing really magic going on under the hood here. An actor is really just a recursive function that
 // holds state in its arguments, receives a message, possibly does some work or send messages back to other processes, 
@@ -108,3 +111,11 @@ fn handle_message(
       }
   }
 }
+// That's it! We've implemented a simple pantry actor.
+// Note: This example is meant to be straightforward. In a really system, 
+// you probably don't want an actor like this, whose role is to manage a small
+// piece of mutable state. 
+// Utilizing process and actors to bootstrap OOP patterns based on mutable state 
+// is, well, a bad idea. Remember, all things in moderation. There are times when
+// a simple server to hold some mutable state is exactly what you need. But in a 
+// functional language like Gleam, it shouldn't be your first choice.

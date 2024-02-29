@@ -36,7 +36,7 @@ pub fn main() {
   // process from any other process.
   process.start(fn() { process.send(subj, "hello, world") }, True)
 
-  // The `receive` function is used to listen for messages sent to the current process.
+  // The `receive` function is used to listen for messages sent to the subject.
   let assert Ok("hello, world") = process.receive(subj, 1000)
 
   // Note: If you've ever dabbled in Erlang/Elixir concurrency tutorials, you may be used
@@ -47,7 +47,7 @@ pub fn main() {
   //   decouple the order in which messages are sent from the order in which they
   //   are received.
 
-  // Lets make a second subject, also owned by the current process.
+  // Lets make a second subject.
   let subj2 = process.new_subject()
 
   // Here we spawn a new process, and use the subjects to send messages
@@ -87,21 +87,19 @@ pub fn main() {
   let subject: Subject(String) = process.new_subject()
 
   // A subject works a bit like a mailbox. You can send messages
-  // to it from any process, and receive them from any other process.
+  // to it from any process. You can only receive messages
+  // from it in the process that created it. 
+  // Under the hood, every erlang process has it's own mailbox.
+  // Subjects help us organize that mailbox, but you can't swap 
+  // mailboxes with your neighbor.
 
   process.start(
     fn() { process.send(subject, "hello from some rando process") },
     True,
   )
 
-  process.start(
-    fn() {
-      // receive in another rando process
-      let assert Ok("hello from some rando process") =
-        process.receive(subject, 1000)
-    },
-    True,
-  )
+  let assert Ok("hello from some rando process") =
+    process.receive(subject, 1000)
 
   // Notice that the subjects type is `Subject(String)`. Subjects are generic
   // over the type of message they can send/receive.

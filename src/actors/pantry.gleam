@@ -76,7 +76,7 @@ pub type Message {
 // and then calls itself with some new state. The `actor.Next` type is just an abstraction over that pattern.
 //
 // In fact, take a look at [it's definition](https://hexdocs.pm/gleam_otp/gleam/otp/actor.html#Next) 
-// and you'll see what I mean (don't worry about selectors yet).
+// and you'll see what I mean.
 fn handle_message(
   message: Message,
   pantry: Set(String),

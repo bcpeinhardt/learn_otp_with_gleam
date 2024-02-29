@@ -113,14 +113,15 @@ fn handle_message(
 }
 // That's it! We've implemented a simple pantry actor.
 //
-// Note: This example is meant to be straightforward. In a really system, 
+// Note: This example is meant to be straightforward. In a real system, 
 // you probably don't want an actor like this, whose role is to manage a small
 // piece of mutable state. 
 //
-// Utilizing process and actors to bootstrap OOP patterns based on mutable state 
+// Utilizing processes and actors to bootstrap OOP patterns based on mutable state 
 // is, well, a bad idea. Remember, all things in moderation. There are times when
 // a simple server to hold some mutable state is exactly what you need. But in a 
 // functional language like Gleam, it shouldn't be your first choice.
 //
 // There's a lot going on with this example, so don't worry if you need to sit
-// with it for a while. 
+// with it for a while. When you think you've got it, I recommend heading to the 
+// supervisors section next.

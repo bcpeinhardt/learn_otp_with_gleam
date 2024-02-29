@@ -73,13 +73,9 @@ pub fn main() {
   // with which to intialize itself.
   // There's a `supervisor.start_spec` function as well for tuning the 
   // restart frequency and the initial state to pass to children.
-  let children = fn(children) {
-    children
-    |> supervisor.add(game)
-  }
 
   // We start the supervisor
-  let assert Ok(_supervisor_subject) = supervisor.start(children)
+  let assert Ok(_supervisor_subject) = supervisor.start(supervisor.add(_, game))
 
   // The actor's init function sent us a subject for us to be able
   // to send it messages
@@ -95,13 +91,13 @@ fn play_game(
   parent_subject: Subject(Subject(duckduckgoose.Message)),
   game_subject: Subject(duckduckgoose.Message),
   times n: Int,
-) {
+) -> Nil {
   case n {
     // Base Case, recess is over
     0 -> Nil
     _ -> {
       case duckduckgoose.play_game(game_subject) {
-        // We're just a noraml old duck, so we keep playing
+        // We're just a normal old duck, so we keep playing
         Ok(msg) -> {
           io.println(msg)
           play_game(parent_subject, game_subject, n - 1)

@@ -76,14 +76,16 @@ pub fn start(
 
 /// We provide this function in case we want to manually stop the actor,
 /// but in reality the supervisor will handle that for us.
-pub fn shutdown(subject: Subject(Message)) {
+pub fn shutdown(subject: Subject(Message)) -> Nil {
   actor.send(subject, Shutdown)
 }
 
 /// This is how we play the game.
 /// We are at the whim of the child as to whether we are a 
 /// humble duck or the mighty goose.
-pub fn play_game(subject: Subject(Message)) {
+pub fn play_game(
+  subject: Subject(Message),
+) -> Result(String, process.CallError(String)) {
   let msg_generator = random.weighted(#(9.0, Duck), [#(1.0, Goose)])
   let msg = random.random_sample(msg_generator)
 

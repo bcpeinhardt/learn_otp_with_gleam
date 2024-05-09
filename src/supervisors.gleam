@@ -53,9 +53,9 @@
 //// 
 //// Back? Great, read on.
 
+import gleam/erlang/process.{type Subject}
 import gleam/io
 import gleam/otp/supervisor
-import gleam/erlang/process.{type Subject}
 import supervisors/a_shit_actor as duckduckgoose
 
 pub fn main() {

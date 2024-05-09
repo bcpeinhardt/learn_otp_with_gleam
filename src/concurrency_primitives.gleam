@@ -1,8 +1,8 @@
-import gleam/io
 import gleam/erlang/process.{type Subject}
-import gleam/string
 import gleam/function
 import gleam/int
+import gleam/io
+import gleam/string
 
 pub fn main() {
   // A "process" in gleam is a lightweight, concurrent unit of execution.

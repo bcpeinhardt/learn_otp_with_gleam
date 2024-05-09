@@ -2,8 +2,8 @@
 //// 
 //// 
 
-import gleam/otp/actor
 import gleam/erlang/process.{type Subject}
+import gleam/otp/actor
 import gleam/set.{type Set}
 
 // Below this comment are the public functions that we want to expose to other modules.

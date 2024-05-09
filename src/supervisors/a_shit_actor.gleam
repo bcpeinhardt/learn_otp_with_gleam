@@ -11,9 +11,9 @@
 //// around the circle. Interestingly in the midwest of the United States the
 //// game is often called "Duck, Duck, Grey Duck".)
 
-import gleam/otp/actor
 import gleam/erlang/process.{type Subject}
 import gleam/function
+import gleam/otp/actor
 import prng/random
 
 /// Okay, well this is new.

@@ -115,7 +115,7 @@ pub fn main() {
   // The catch is that selecting from a selector has to produce only one type of message, so you'll
   // need to map the messages to a common type.
   // In this example, I want to receive messages as strings, so I tell the selector to turn subject 1's
-  // messages into string using `int.to_string`, and to leave subject 2's messages alone 
+  // messages into a string using `int.to_string`, and to leave subject 2's messages alone 
   // using `function.identity`.
 
   // Try sending the messages in different order to see the selector in action!
@@ -134,4 +134,7 @@ pub fn main() {
   io.println("Received: " <> some_str)
   let assert Ok(some_str_2) = process.select(selector, 1000)
   io.println("Received: " <> some_str_2)
+
+  // Hopefully this introduction made sense. If you're reading in the recommended order,
+  // head over to tasks.gleam next.
 }

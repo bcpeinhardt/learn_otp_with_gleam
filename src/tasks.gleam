@@ -20,7 +20,7 @@ pub fn main() {
   // Note that this task is eager, it will start immediately
   let handle =
     task.async(fn() {
-      process.sleep(1000)
+      process.sleep(500)
       io.println("Task is done")
     })
 
@@ -34,30 +34,27 @@ pub fn main() {
   io.println("I won't execute until the task is done.")
 
   // There's a problem with the code above. If the task times out, 
-  // the current process will panic! Most of the time, you don't want that.
+  // the current process will crash! Most of the time, you don't want that.
   // You can use `task.try_await` to handle the timeout gracefully.
 
-  let handle = task.async(fn() { process.sleep(2000) })
+  let handle = task.async(fn() { process.sleep(1000) })
 
-  case task.try_await(handle, 1000) {
+  case task.try_await(handle, 500) {
     Ok(_) -> io.println("Task finished successfully")
     // This is the one that will execute
     Error(_) -> io.println("Task timed out!")
   }
 
-  // By default task processes are "linked" to the current process.
-  // This is a bidirectional link:
-  // If the current process panics and shuts down, the task will too.
-  // If the task panics and shuts down, the current process will too!.
   //
-  // FOOTGUN ALERT!: `task.try_await` will only protect you from a timeout.
-  // If the task panics, the current process will panic too!
+  // FOOTGUN ALERT!: `task.try_await` will only protect you from a timeout or a "crash" (the process exiting).
+  // If the task panics (which is subtly different than an exit), the current process will panic too!
+  //
   // If you're thinking "That's kinda shit, what if I want to handle panicked
-  // processes gracefully?", well, OTP has amazing constructs for that
+  // processes gracefully as well?", well, OTP has amazing constructs for that
   // called supervisors. It'd rather you use those than roll your own
   // shitty version.
   //
-  // If you REALLY want to handle crashing tasks yourself, there's a function
+  // If you REALLY want to handle panicking tasks yourself, there's a function
   // called [rescue](https://hexdocs.pm/gleam_erlang/gleam/erlang.html#rescue)
   // which takes any function and converts a panic into a result.
   // It's really meant for handling exceptions thrown in ffi erlang/elixir 
@@ -67,9 +64,6 @@ pub fn main() {
   let assert Error(_) = erlang.rescue(fn() { panic })
 
   // And an example using it with tasks, shame on you for ignoring my sage advice.
-  // See how I used `erlang.rescue` on the very inside? That's important.
-  // Calling `task.await` on a process that panics will generate a timeout,
-  // which will crash everything anyway.
   let assert Error(_) =
     task.await(task.async(fn() { erlang.rescue(fn() { panic }) }), 1000)
 
@@ -91,6 +85,8 @@ pub fn main() {
   // appears. We use a list of codepoints instead of a string because dealing with graphemes 
   // properly just distracts from the point of this exercise.
   
+  // Sidenote: If Gleam error handling is confusing for you, I've written [a short blog
+  // post on the subject](https://www.benjaminpeinhardt.com/error-handling-in-gleam/)
   use workload <- result.try(simplifile.read("./src/tasks/king_james_bible.txt"))
   let workload = string.to_utf_codepoints(workload)
   
@@ -147,8 +143,9 @@ fn parallel_letter_frequency(
   // We fold over the partial mapping we got back from the task 
   // and update the total count with it.
   // 
-  // Notice we do this inside the fold of the tasks. We don't want to 
-  // await the next task until we're out of work to do.
+  // Notice we do this inside the fold of the task handles rather than in another loop. 
+  // We don't want to await the next task until we're out of work to do.
+
   use total_freq, letter, count <- dict.fold(partial_freq, total_freq)
   use entry <- dict.update(total_freq, letter)
   case entry {
@@ -166,3 +163,6 @@ fn time(name: String, f: fn() -> a) -> a {
   io.println(name <> " took: " <> int.to_string(difference) <> "ms")
   x
 }
+
+// Alright, if you made it through all this, head on over to actors.gleam to see how more 
+// long running concurrent operations are handled.

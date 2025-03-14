@@ -75,7 +75,7 @@ pub type Message {
 // holds state in its arguments, receives a message, possibly does some work or send messages back to other processes, 
 // and then calls itself with some new state. The `actor.Next` type is just an abstraction over that pattern.
 //
-// In fact, take a look at [it's definition](https://hexdocs.pm/gleam_otp/gleam/otp/actor.html#Next) 
+// In fact, take a look at [its definition](https://hexdocs.pm/gleam_otp/gleam/otp/actor.html#Next) 
 // and you'll see what I mean.
 fn handle_message(
   message: Message,

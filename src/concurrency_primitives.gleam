@@ -41,7 +41,7 @@ pub fn main() {
 
   // Note: If you've ever dabbled in Erlang/Elixir concurrency tutorials, you may be used
   // to sending messages to a pid directly. In Gleam, we use subjects, which 
-  // have a few advantadges over process ids:
+  // have a few advantages over process ids:
   // - They are generic over the message type, so we get type safe messages.
   // - You can have multiple per process. You can use multiple subjects to
   //   decouple the order in which messages are sent from the order in which they

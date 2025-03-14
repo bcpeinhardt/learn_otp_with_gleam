@@ -69,7 +69,7 @@ pub fn start(
     // waiting forever for the actor to start.
     init_timeout: 1000,
     // This is the function that will be called when the actor
-    // get's sent a message. We'll define it below.
+    // gets sent a message. We'll define it below.
     loop: handle_message,
   ))
 }

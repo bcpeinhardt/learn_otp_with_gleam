@@ -112,7 +112,7 @@ pub fn main() {
 }
 
 // This is our base linear implementation for comparison. Hopefully it makes sense.
-// We fold over the list and for each codepoint we increment it's value in the list.
+// We fold over the list and for each codepoint we increment its value in the list.
 fn linear_letter_frequency(input: List(UtfCodepoint)) -> Dict(UtfCodepoint, Int) {
   use acc, letter <- list.fold(input, dict.new())
   use entry <- dict.update(acc, update: letter)
@@ -154,7 +154,7 @@ fn parallel_letter_frequency(
   }
 }
 
-// This is just a little timer function to help use see the results of our work.
+// This is just a little timer function to help us see the results of our work.
 fn time(name: String, f: fn() -> a) -> a {
   let start = birl.now()
   let x = f()

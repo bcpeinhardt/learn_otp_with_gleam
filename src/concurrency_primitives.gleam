@@ -41,7 +41,7 @@ pub fn main() {
 
   // Note: If you've ever dabbled in Erlang/Elixir concurrency tutorials, you may be used
   // to sending messages to a pid directly. In Gleam, we use subjects, which 
-  // have a few advantadges over process ids:
+  // have a few advantages over process ids:
   // - They are generic over the message type, so we get type safe messages.
   // - You can have multiple per process. You can use multiple subjects to
   //   decouple the order in which messages are sent from the order in which they
@@ -81,7 +81,7 @@ pub fn main() {
   // the results, you'll want the `Task` module. It's great for the dead simple
   // "do this somewhere else and I'll let you know when I need it" case.
   //
-  // Before you run off reading those sections though, lets discuss subjects a 
+  // Before you run off reading those sections though, let's discuss subjects a 
   // bit more.
 
   let subject: Subject(String) = process.new_subject()
@@ -89,7 +89,7 @@ pub fn main() {
   // A subject works a bit like a mailbox. You can send messages
   // to it from any process. You can only receive messages
   // from it in the process that created it. 
-  // Under the hood, every erlang process has it's own mailbox.
+  // Under the hood, every erlang process has its own mailbox.
   // Subjects help us organize that mailbox, but you can't swap 
   // mailboxes with your neighbor.
 
@@ -101,7 +101,7 @@ pub fn main() {
   let assert Ok("hello from some rando process") =
     process.receive(subject, 1000)
 
-  // Notice that the subjects type is `Subject(String)`. Subjects are generic
+  // Notice that the subject's type is `Subject(String)`. Subjects are generic
   // over the type of message they can send/receive.
   // This is nice because the type system will help us ensure that we're not sending/receiving
   // the wrong type of message, and we can do less runtime checking than in a dynamic language.

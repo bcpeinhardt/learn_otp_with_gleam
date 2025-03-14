@@ -8,7 +8,7 @@
 //// Pretty straightforward, workers do work, supervisors supervise.
 //// 
 //// Ok, why is this good? 
-//// The propoganda goes like this:
+//// The propaganda goes like this:
 //// 
 //// -----------------------------------------------------------------------------------------
 //// 
@@ -70,7 +70,7 @@ pub fn main() {
   let game = supervisor.worker(duckduckgoose.start(_, parent_subject))
 
   // The supervisor API is really simple. All a supervisor needs is a function
-  // with which to intialize itself.
+  // with which to initialize itself.
   // There's a `supervisor.start_spec` function as well for tuning the 
   // restart frequency and the initial state to pass to children.
 

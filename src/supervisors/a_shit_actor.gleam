@@ -30,7 +30,7 @@ import prng/random
 /// provide a startup function to produce the initial state,
 /// instead of simply providing the initial state directly.
 /// 
-/// We'll take advantadge of getting the chance to compute
+/// We'll take advantage of getting the chance to compute
 /// things on the new process to send ourselves back a subject
 /// for the actor.
 /// 
@@ -69,7 +69,7 @@ pub fn start(
     // waiting forever for the actor to start.
     init_timeout: 1000,
     // This is the function that will be called when the actor
-    // get's sent a message. We'll define it below.
+    // gets sent a message. We'll define it below.
     loop: handle_message,
   ))
 }

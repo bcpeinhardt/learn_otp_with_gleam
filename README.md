@@ -22,7 +22,7 @@ them here, so that in the future this repo might serve as the base for learning 
 
 ### Using this resource
 
-This resource presumes ALOT of prerequisite knowledge in it's users.
+This resource presumes A LOT of prerequisite knowledge in its users.
 1. You kinda know what Erlang concurrency and OTP is about/why it's good. If you've yet to
    drink the Kool-aid, allow me to provide some:
   [The Soul of Erlang and Elixir talk](https://www.youtube.com/watch?v=JvBT4XBdoUE)
@@ -31,7 +31,7 @@ This resource presumes ALOT of prerequisite knowledge in it's users.
    to learn. If you have never seen Gleam, try out the [interactive tour](https://tour.gleam.run/), or follow
    the [Syllabus on Exercism](https://exercism.org/tracks/gleam/concepts).
 
-Each section is broken into it's own module (a top level file named <module_name>.gleam, and optionally a folder named <module_name> containing files for submodules). You can read them in the order
+Each section is broken into its own module (a top level file named <module_name>.gleam, and optionally a folder named <module_name> containing files for submodules). You can read them in the order
 you like, but I recommend
 1. concurrency_primitives
 2. tasks

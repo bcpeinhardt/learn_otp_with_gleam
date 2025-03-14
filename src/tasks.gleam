@@ -85,7 +85,7 @@ pub fn main() {
   // appears. We use a list of codepoints instead of a string because dealing with graphemes 
   // properly just distracts from the point of this exercise.
   
-  // Sidenote: If Gleam error handling is confusing for you, I've written [a short blog
+  // Side note: If Gleam error handling is confusing for you, I've written [a short blog
   // post on the subject](https://www.benjaminpeinhardt.com/error-handling-in-gleam/)
   use workload <- result.try(simplifile.read("./src/tasks/king_james_bible.txt"))
   let workload = string.to_utf_codepoints(workload)
